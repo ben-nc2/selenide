@@ -11,6 +11,10 @@ public class Html {
   public static Html text = new Html();
 
   public boolean matches(String text, String regex) {
+    return Pattern.compile(regex, DOTALL).matcher(text).matches();
+  }
+
+  public boolean matchesSubstring(String text, String regex) {
     return Pattern.compile(".*" + regex + ".*", DOTALL).matcher(text).matches();
   }
 
@@ -23,7 +27,7 @@ public class Html {
   }
 
   public boolean equals(String text, String subtext) {
-    return reduceSpaces(text).equalsIgnoreCase(reduceSpaces(subtext.toLowerCase()));
+    return reduceSpaces(text).equalsIgnoreCase(reduceSpaces(subtext));
   }
 
   public boolean equalsCaseSensitive(String text, String subtext) {
