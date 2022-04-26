@@ -25,6 +25,7 @@ import static com.codeborne.selenide.Condition.match;
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.or;
 import static com.codeborne.selenide.Condition.ownText;
+import static com.codeborne.selenide.Condition.partialText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
@@ -77,14 +78,14 @@ final class ConditionsTest extends ITest {
       be(visible),
       not(hidden),
       have(cssClass("multirow_table")),
-      have(text("Baskerville")),
+      have(partialText("Baskerville")),
       be(enabled),
       not(disabled),
       have(attribute("class", "table multirow_table")),
       have(href("https://nope.lt"))
     ))).isInstanceOf(ElementShould.class)
       .hasMessageStartingWith("Element should be satisfied: be visible and not hidden and have css class \"multirow_table\"" +
-        " and have text \"Baskerville\" and be enabled and not disabled and have attribute class=\"table multirow_table\"" +
+        " and have partial text \"Baskerville\" and be enabled and not disabled and have attribute class=\"table multirow_table\"" +
         " and have attribute href=\"https://nope.lt\" {#multirowTable}")
       .hasMessageContaining("Actual value: href=\"\"");
   }
@@ -118,16 +119,15 @@ final class ConditionsTest extends ITest {
 
   @Test
   void userCanUseOrCondition() {
-    Condition one_of_conditions = or("baskerville", text("Basker"), text("Walle"));
+    Condition one_of_conditions = or("baskerville", partialText("Basker"), partialText("Walle"));
     $("#baskerville").shouldBe(one_of_conditions);
 
-    Condition all_of_conditions = or("baskerville", text("Basker"), text("rville"));
+    Condition all_of_conditions = or("baskerville", partialText("Basker"), partialText("rville"));
     $("#baskerville").shouldBe(all_of_conditions);
 
-    Condition none_of_conditions = or("baskerville", text("pasker"), text("wille"));
+    Condition none_of_conditions = or("baskerville", partialText("pasker"), partialText("wille"));
     $("#baskerville").shouldNotBe(none_of_conditions);
   }
-
 
   @Test
   void matchWithCustomPredicateShouldCheckCondition() {
