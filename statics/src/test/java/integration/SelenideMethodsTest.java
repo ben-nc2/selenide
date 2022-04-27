@@ -263,12 +263,9 @@ final class SelenideMethodsTest extends IntegrationTest {
     $("#username").sendKeys(" x ");
     $("#username").pressTab();
 
-    if (!isChrome() && !isFirefox()) {
-      // fails in Chrome for unknown reason. In Firefox, it's just unstable.
-      $("#password").shouldBe(focused);
-      $("#username-mirror").shouldHave(text(" x "));
-      $("#username-blur-counter").shouldHave(text("blur: "));
-    }
+    $("#password").shouldBe(focused);
+    $("#username-mirror").shouldHave(text("x (1)"));
+    $("#username-blur-counter").shouldHave(text("blur: 1"));
   }
 
   @Test
